@@ -21,27 +21,11 @@ public class TypeSpeederApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-      //  System.out.println("Hej och välkommen till TypeSpeeder!");
-      //  System.out.println("Börja med att ange dina inloggningsuppgifter nedan.");
       Menu.setUserService(userService);
-       // Menu.displayMenu();
-
     }
 
 
 
-    //  @Bean
-    //  public UserService userService(UserRepository userRepository) {
-    // return new UserService(userRepository);
-    //  }
-
-
-    //System.setProperty("java.awt.headless", "false");
-
-    // Menu.displayMenu();
-    // Menu.logIn();
-    //Menu.displayMenu();
-    //Menu.openTextFile();
 
 
 }
