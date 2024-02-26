@@ -30,10 +30,10 @@ public class Menu implements MenuService {
         while (true){
             MenuOptions.clear();
             MenuOptions.add("1. Starta spelet");
-            MenuOptions.add("2. Rankningslista");
-            MenuOptions.add("3. Nyheter och updateringar");
+            MenuOptions.add("2. Visa rankningslista");
+            MenuOptions.add("3. Visa nyheter och updateringar");
             MenuOptions.add("4. Ändra språk");
-            MenuOptions.add("5. Updatera profil");
+            MenuOptions.add("5. Uppdatera profil");
             MenuOptions.add("6. Logga ut");
             for (String option : MenuOptions) {
                 System.out.println(option);
@@ -127,6 +127,7 @@ public class Menu implements MenuService {
     public static void logOut() {
         LoggedInUser = null;
         System.out.println("Du har loggats ut.");
+        System.exit(0);
     }
 
 
