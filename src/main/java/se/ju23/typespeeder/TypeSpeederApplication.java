@@ -22,9 +22,11 @@ public class TypeSpeederApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
       Menu.setUserService(userService);
-
-
     }
+
+
+
+
 
 }
 
