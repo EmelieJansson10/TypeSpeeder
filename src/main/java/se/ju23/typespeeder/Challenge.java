@@ -38,7 +38,7 @@ public class Challenge {
     public static final String WHITE = "\u001B[37m";
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
-    public static final String GREEN = "\u001B[32m";
+    public static final String GREY = "\u001B[32m";
     public static ArrayList<PlayerRanking>rankingList = new ArrayList<>();
     public static Thread timer;
 
@@ -202,7 +202,7 @@ public class Challenge {
             }
             String[] words = textFile.split(" ");
             for (String word : words) {
-                String color = Math.random() < 0.5 ? RED : GREEN;
+                String color = Math.random() < 0.5 ? RED : WHITE;
                 colorWordsBuilder.append(color).append(word).append(" ");
                 System.out.print(color + word + " " + RESET);
             }
@@ -218,7 +218,7 @@ public class Challenge {
             textFile = scanner.nextLine();
             char[] letters = textFile.toCharArray();
             for (char letter : letters) {
-                String color = Math.random() < 0.5 ? RED : GREEN;
+                String color = Math.random() < 0.5 ? RED : WHITE;
                 colorWordsBuilder.append(color).append(letter).append(" ");
                 System.out.print(color + letter + " " + RESET);
             }

@@ -1,6 +1,10 @@
 package se.ju23.typespeeder;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static se.ju23.typespeeder.Challenge.timeSeconds;
@@ -8,7 +12,7 @@ import static se.ju23.typespeeder.Challenge.timeSeconds;
 public class PlayerRanking {
     String name;
     double result;
-    int level;
+    public static int level;
     public static float score;
     public static int levelNumber;
     public static String username = Menu.loggedInUsername;
@@ -41,7 +45,7 @@ public class PlayerRanking {
     }
 
 
-    public static ArrayList<PlayerRanking> rankingList(){
+    public static ArrayList<PlayerRanking> rankingList(Connection conn){
         int wordsValue = 1;
         int orderValue = 2;
         int wordPoints = Challenge.countWords * wordsValue;
@@ -70,9 +74,25 @@ public class PlayerRanking {
         level();
         if (!playerExist){
             rankingList.add(new PlayerRanking(username, score, levelNumber));
+            try {
+                savePlayerData(username, score, levelNumber, conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return rankingList;
     }
+
+    public static void savePlayerData(String username, float score, int level, Connection conn) throws SQLException{
+        String query = "INSERT INTO user (username, score, level) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, username);
+            stmt.setFloat(2, score);
+            stmt.setInt(3, level);
+            stmt.executeUpdate();
+        }
+    }
+
     public static void printRankingList(ArrayList<PlayerRanking> topList) {
         System.out.println("Ranking List:\nPlace    Player      Score       Level\n");
         int position = 1;
@@ -83,8 +103,24 @@ public class PlayerRanking {
         }
     }
     public static void showRankingList() throws IOException {
-        ArrayList<PlayerRanking> topList = rankingList();
-        printRankingList(topList);
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/typespeeder", "player", "player123!");
+
+            ArrayList<PlayerRanking> topList = rankingList(conn);
+            printRankingList(topList);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn!= null){
+                try {
+                    conn.close();
+                } catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
         Challenge.returnToMenu();
     }
 
