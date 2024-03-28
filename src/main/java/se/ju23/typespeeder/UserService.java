@@ -18,7 +18,7 @@ public class UserService implements CommandLineRunner {
         Menu.setUserService(this);
         Menu.logIn();
         if (Menu.loggedInUser !=null){
-            Menu.displayMenu();
+            Menu.displayMenu(Challenge.messages);
         }
     }
 }

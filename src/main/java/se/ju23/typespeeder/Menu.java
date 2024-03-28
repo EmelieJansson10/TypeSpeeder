@@ -25,20 +25,20 @@ public class Menu implements MenuService {
     public static String passWord;
     public static boolean loggedIn=false;
 
-    public static void displayMenu() throws IOException {
+    public static void displayMenu(ResourceBundle messages) throws IOException {
         UserService userService = TypeSpeederApplication.userService;
         while (true){
             MenuOptions.clear();
-            MenuOptions.add("1. Starta spelet");
-            MenuOptions.add("2. Visa rankningslista");
-            MenuOptions.add("3. Visa nyheter och updateringar");
-            MenuOptions.add("4. Ändra språk");
-            MenuOptions.add("5. Uppdatera profil");
-            MenuOptions.add("6. Logga ut");
+            MenuOptions.add(messages.getString("menu1"));
+            MenuOptions.add(messages.getString("menu2"));
+            MenuOptions.add(messages.getString("menu3"));
+            MenuOptions.add(messages.getString("menu4"));
+            MenuOptions.add(messages.getString("menu5"));
+            MenuOptions.add(messages.getString("menu6"));
             for (String option : MenuOptions) {
                 System.out.println(option);
             }
-            System.out.print("Ange siffran för ditt val: ");
+            System.out.print(messages.getString("choose.number"));
 
 
             try {
@@ -110,7 +110,7 @@ public class Menu implements MenuService {
                     String goBack = input.nextLine().toLowerCase();
 
                     if ("ja".equals(goBack)) {
-                        displayMenu();
+                        displayMenu(messages);
                     } else {
                         System.out.println("Programmet avslutas.");
 

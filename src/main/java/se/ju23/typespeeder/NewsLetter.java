@@ -42,16 +42,8 @@ public class NewsLetter {
         for(NewsLetter letter : newsLetterArrayList){
             System.out.println(letter);
         }
+        Challenge.returnToMenu();
 
-
-        System.out.println("Vill du återgå till huvudmenyn? (ja/nej): ");
-        String goBack = input.nextLine().toLowerCase();
-
-        if ("ja".equals(goBack)) {
-            displayMenu();
-        } else {
-            System.out.println("Programmet avslutas.");
-        }
     }
 
 
