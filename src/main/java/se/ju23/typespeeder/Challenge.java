@@ -1,5 +1,7 @@
 package se.ju23.typespeeder;
 
+import jakarta.persistence.*;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static se.ju23.typespeeder.TypeSpeederApplication.userService;
 
@@ -41,7 +44,6 @@ public class Challenge {
     public static final String GREY = "\u001B[32m";
     public static ArrayList<PlayerRanking>rankingList = new ArrayList<>();
     public static Thread timer;
-
 
     public static void changeLanguage() throws IOException {
         long startTime = System.nanoTime();
@@ -188,15 +190,19 @@ public class Challenge {
         if (gameChoice == 1) {
             File file;
             if (difficulty == 1) {
-                file = new File("./src/main/resources/TextFile");
-                scanner = new Scanner(file);
-                while (scanner.hasNextLine()) {
-                    textFile += scanner.nextLine();
-                }
+                List<String> lines = Files.readAllLines(new File("./src/main/resources/TextFile").toPath());
+                int randomIndex = new Random().nextInt(lines.size());
+                String randomLine = lines.get(randomIndex);
+                textFile = randomLine;
+
             } else if (difficulty == 2) {
                 BufferedReader reader;
-                file = new File("./src/main/resources/TextFile2");
-                reader = new BufferedReader(new FileReader(file));
+                String[]filepath = {
+                        "./src/main/resources/TextFile2",
+                        "./src/main/resources/TextFile3"
+                };
+                String randomFilePath = pickRandomFilePath(filepath);
+                reader = new BufferedReader(new FileReader(randomFilePath));
                 String lines = reader.readLine();
 
                 while (lines != null) {
@@ -215,19 +221,18 @@ public class Challenge {
         }
         colorWords = colorWordsBuilder.toString();
     }
-    public static void openGame2() throws FileNotFoundException {
+    public static void openGame2() throws IOException {
         String textFile = "";
         StringBuilder colorWordsBuilder = new StringBuilder();
-        File file2 = new File("./src/main/resources/TextFile");
-        scanner = new Scanner(file2);
-        while (scanner.hasNextLine()) {
-            textFile = scanner.nextLine();
-            char[] letters = textFile.toCharArray();
-            for (char letter : letters) {
-                String color = Math.random() < 0.5 ? RED : WHITE;
-                colorWordsBuilder.append(color).append(letter).append(" ");
-                System.out.print(color + letter + " " + RESET);
-            }
+        List<String> lines = Files.readAllLines(new File("./src/main/resources/TextFile").toPath());
+        int randomIndex = new Random().nextInt(lines.size());
+        String randomLine = lines.get(randomIndex);
+        textFile = randomLine;
+        char[] letters = textFile.toCharArray();
+        for (char letter : letters) {
+            String color = Math.random() < 0.5 ? RED : WHITE;
+            colorWordsBuilder.append(color).append(letter).append(" ");
+            System.out.print(color + letter + " " + RESET);
         }
         colorWords = colorWordsBuilder.toString();
 
@@ -278,7 +283,7 @@ public class Challenge {
                 }
             }
         }
-        System.out.println(redLetters);
+        //System.out.println(redLetters);
         String [] gameLetters = game2.split("\\s+");
         System.out.println(game2);
         for (String list : gameLetters){
@@ -318,4 +323,9 @@ public class Challenge {
             Menu.displayMenu(messages);
         }
     }
+    public static String pickRandomFilePath(String[] filepath){
+        int randomPath = ThreadLocalRandom.current().nextInt(filepath.length);
+        return filepath[randomPath];
+    }
+
 }

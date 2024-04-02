@@ -95,26 +95,21 @@ public class Menu implements MenuService {
     public static void updateUser() throws IOException {
         while (true) {
             if (loggedInUser != null) {
-                System.out.print("Ange nytt användarnamn (tryck enter om du inte vill ändra): ");
+                System.out.print(Challenge.messages.getString("new.username"));
                 String newUsername = input.nextLine();
 
-                System.out.print("Ange nytt lösenord (tryck enter om du inte vill ändra): ");
+                System.out.print(Challenge.messages.getString("new.password"));
                 String newPassword = input.nextLine();
 
                 if (!newUsername.isEmpty() || !newPassword.isEmpty()) {
 
                     loggedInUser.updateCredentials(newUsername, newPassword);
                     userService.userRepository.save(loggedInUser);
-                    System.out.println("Användarnamn och/eller lösenord är uppdaterade!");
-                    System.out.println("Vill du återgå till huvudmenyn? (ja/nej): ");
-                    String goBack = input.nextLine().toLowerCase();
-
-                    if ("ja".equals(goBack)) {
-                        displayMenu(messages);
-                    } else {
-                        System.out.println("Programmet avslutas.");
-
-                    }
+                    System.out.println(Challenge.messages.getString("updated"));
+                    Challenge.returnToMenu();
+                }
+                else {
+                    Challenge.returnToMenu();
                 }
 
             }
@@ -126,7 +121,7 @@ public class Menu implements MenuService {
 
     public static void logOut() {
         LoggedInUser = null;
-        System.out.println("Du har loggats ut.");
+        System.out.println(Challenge.messages.getString("logged.out"));
         System.exit(0);
     }
 

@@ -32,9 +32,9 @@ public class NewsLetter {
         String formattedDate = dateTime.format(formatter);
         LocalDateTime formattedDateTime = LocalDateTime.parse(formattedDate,formatter);
         ArrayList<NewsLetter>newsLetterArrayList = new ArrayList<>();
-        NewsLetter news1 = new NewsLetter("Nu finns möjlighet att spela spelet på engelska!", LocalDateTime.parse(dateTime.format(formatter),formatter));
-        NewsLetter news2 = new NewsLetter("Nu finns det nya utmaningar ute att spela!", LocalDateTime.parse(dateTime2.format(formatter),formatter));
-        NewsLetter news3 = new NewsLetter("Nu finns characterChallenge ute att spela!", LocalDateTime.parse(dateTime3.format(formatter),formatter));
+        NewsLetter news1 = new NewsLetter(Challenge.messages.getString("news1"), LocalDateTime.parse(dateTime.format(formatter),formatter));
+        NewsLetter news2 = new NewsLetter(Challenge.messages.getString("news2"), LocalDateTime.parse(dateTime2.format(formatter),formatter));
+        NewsLetter news3 = new NewsLetter(Challenge.messages.getString("news3"), LocalDateTime.parse(dateTime3.format(formatter),formatter));
 
         newsLetterArrayList.add(news1);
         newsLetterArrayList.add(news2);
@@ -64,6 +64,6 @@ public class NewsLetter {
 
     @Override
     public String toString() {
-        return "\nNyhet:\n" + content + "\nPublicerad: " + publishDateTime;
+        return Challenge.messages.getString("news") + content + Challenge.messages.getString("publish") + publishDateTime;
     }
 }
