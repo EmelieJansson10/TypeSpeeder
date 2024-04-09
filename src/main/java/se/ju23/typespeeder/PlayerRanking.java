@@ -1,5 +1,7 @@
 package se.ju23.typespeeder;
 
+import jakarta.persistence.*;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,10 +11,24 @@ import java.util.ArrayList;
 
 import static se.ju23.typespeeder.Challenge.timeSeconds;
 
+@Entity
+@Table(name="playerranking")
+
 public class PlayerRanking {
-    String name;
-    double result;
-    public static int level;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    int id;
+
+    @Column(name = "name")
+    static String name;
+
+    @Column(name = "result")
+    static double result;
+
+    @Column(name = "level")
+    static int level;
+
     public static float score;
     public static int levelNumber;
     public static String username = Menu.loggedInUsername;
@@ -26,6 +42,10 @@ public class PlayerRanking {
         this.name = name;
         this.result = result;
         this.level = level;
+    }
+
+    public PlayerRanking() {
+
     }
 
     public String getName() {
@@ -73,9 +93,9 @@ public class PlayerRanking {
         }
         level();
         if (!playerExist){
-            rankingList.add(new PlayerRanking(username, score, levelNumber));
+            rankingList.add(new PlayerRanking(name, result, level));
             try {
-                savePlayerData(username, score, levelNumber, conn);
+                savePlayerData(name, result, level, conn);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -83,11 +103,11 @@ public class PlayerRanking {
         return rankingList;
     }
 
-    public static void savePlayerData(String username, float score, int level, Connection conn) throws SQLException{
-        String query = "INSERT INTO user (username, score, level) VALUES (?, ?, ?)";
+    public static void savePlayerData(String name, double result, int level, Connection conn) throws SQLException{
+        String query = "INSERT INTO playerranking (name, result, level) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, username);
-            stmt.setFloat(2, score);
+            stmt.setString(1, name);
+            stmt.setDouble(2, result);
             stmt.setInt(3, level);
             stmt.executeUpdate();
         }
