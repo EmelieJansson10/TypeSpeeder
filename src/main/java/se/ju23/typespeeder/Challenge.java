@@ -321,6 +321,8 @@ public class Challenge {
         String goBack = input.nextLine().toLowerCase();
         if ("ja".equalsIgnoreCase(goBack) || "yes".equalsIgnoreCase(goBack)) {
             Menu.displayMenu(messages);
+        } else if("nej".equalsIgnoreCase(goBack) || "no".equalsIgnoreCase(goBack)){
+            Challenge.changeLanguage();
         }
     }
     public static String pickRandomFilePath(String[] filepath){
