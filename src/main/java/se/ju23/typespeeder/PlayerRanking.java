@@ -1,6 +1,7 @@
 package se.ju23.typespeeder;
 
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -34,6 +35,8 @@ public class PlayerRanking {
     public static String username = Menu.loggedInUsername;
     public static ArrayList<PlayerRanking>rankingList = new ArrayList<>();
 
+    public static PlayerRankingService service;
+
     public PlayerRanking(String name, double result) {
         this.name = name;
         this.result = result;
@@ -65,7 +68,7 @@ public class PlayerRanking {
     }
 
 
-    public static ArrayList<PlayerRanking> rankingList(Connection conn){
+    public static ArrayList<PlayerRanking> rankingList(){
         int wordsValue = 1;
         int orderValue = 2;
         int wordPoints = Challenge.countWords * wordsValue;
@@ -88,18 +91,19 @@ public class PlayerRanking {
                     playerExist = true;
                     break;
                 }
-
             }
+            service.repository.save(player);
         }
         level();
         if (!playerExist){
-            rankingList.add(new PlayerRanking(name, result, level));
-            try {
-                savePlayerData(name, result, level, conn);
+            service.repository.save(new PlayerRanking(username, score, levelNumber));
+            /*try {
+                savePlayerData(username, score, levelNumber, conn);
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
+
         return rankingList;
     }
 
@@ -122,7 +126,7 @@ public class PlayerRanking {
             System.out.printf(String.format("%-9d%-10s%7.2f%9d%n", position++, player.name, player.result, player.level));
         }
     }
-    public static void showRankingList() throws IOException {
+    /*public static void showRankingList() throws IOException {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/typespeeder", "player", "player123!");
@@ -142,10 +146,16 @@ public class PlayerRanking {
             }
         }
         Challenge.returnToMenu();
+    }*/
+    public static void showRankingList() throws IOException {
+        ArrayList<PlayerRanking> topList = rankingList();
+        printRankingList(topList);
+        Challenge.returnToMenu();
     }
 
     public static void level(){
         levelNumber = 1;
+
         for (PlayerRanking player : rankingList) {
             if (player.getName().equals(username)) {
                 double result = player.getResult();
@@ -155,6 +165,7 @@ public class PlayerRanking {
                     levelNumber = 1;
                 }
                 player.setLevel(levelNumber);
+                service.repository.save(player);
             }
         }
     }

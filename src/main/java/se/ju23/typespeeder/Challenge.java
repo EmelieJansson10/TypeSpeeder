@@ -46,29 +46,31 @@ public class Challenge {
     public static Thread timer;
 
     public static void changeLanguage() throws IOException {
-        long startTime = System.nanoTime();
+        while(true) {
+            long startTime = System.nanoTime();
 
-        System.out.print(messages.getString("language"));
-        String language = input.nextLine().toLowerCase();
+            System.out.print(messages.getString("language"));
+            String language = input.nextLine().toLowerCase();
 
-        if ("en".equalsIgnoreCase(language)) {
-            messages = ResourceBundle.getBundle("messages", new Locale(language, "US"));
+            if ("en".equalsIgnoreCase(language)) {
+                messages = ResourceBundle.getBundle("messages", new Locale(language, "US"));
 
-        } else if ("sv".equalsIgnoreCase(language)) {
-            messages = ResourceBundle.getBundle("messages", new Locale(language, "SE"));
+            } else if ("sv".equalsIgnoreCase(language)) {
+                messages = ResourceBundle.getBundle("messages", new Locale(language, "SE"));
 
-        } else {
-            System.out.println("Ogiltigt språkval. Använder systemets standardspråk.");
-            messages = ResourceBundle.getBundle("messages", Locale.getDefault());
+            } else {
+                System.out.println("Ogiltigt språkval. Använder systemets standardspråk.");
+                messages = ResourceBundle.getBundle("messages", Locale.getDefault());
+            }
+            String selectedLanguage = "";
+            if (language.equals("sv")) {
+                selectedLanguage = "Svenska";
+            } else if (language.equals("en")) {
+                selectedLanguage = "English";
+            }
+            System.out.println(messages.getString("language.changed") + selectedLanguage);
+            returnToMenu();
         }
-        String selectedLanguage = "";
-        if(language.equals("sv")){
-            selectedLanguage = "Svenska";
-        } else if (language.equals("en")) {
-            selectedLanguage = "English";
-        }
-        System.out.println(messages.getString("language.changed") + selectedLanguage);
-        returnToMenu();
 
     }
 
@@ -262,8 +264,9 @@ public class Challenge {
             }
         }
         String [] gameList = game.split("\\s+");
+        Set<String> uniqueRedWords = new HashSet<>(redWords);
         for (String list : gameList){
-            for(String red : redWords){
+            for(String red : uniqueRedWords){
                 if (red.equals(list)){
                     countWords++;
                 }
@@ -321,8 +324,6 @@ public class Challenge {
         String goBack = input.nextLine().toLowerCase();
         if ("ja".equalsIgnoreCase(goBack) || "yes".equalsIgnoreCase(goBack)) {
             Menu.displayMenu(messages);
-        } else if("nej".equalsIgnoreCase(goBack) || "no".equalsIgnoreCase(goBack)){
-            Challenge.changeLanguage();
         }
     }
     public static String pickRandomFilePath(String[] filepath){
