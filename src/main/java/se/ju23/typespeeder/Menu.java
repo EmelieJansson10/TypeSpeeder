@@ -5,9 +5,7 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.util.*;
 
-import static se.ju23.typespeeder.Challenge.returnToMenu;
 import static se.ju23.typespeeder.Challenge.startChallenge;
-import static se.ju23.typespeeder.Challenge.*;
 
 
 @Component
@@ -24,6 +22,12 @@ public class Menu implements MenuService {
     public static String userName;
     public static String passWord;
     public static boolean loggedIn=false;
+    private static PlayerRankingService playerRankingService;
+
+
+    public Menu (PlayerRankingService playerRankingService) {
+        this.playerRankingService = playerRankingService;
+    }
 
     public static void displayMenu(ResourceBundle messages) throws IOException {
         UserService userService = TypeSpeederApplication.userService;
@@ -51,7 +55,7 @@ public class Menu implements MenuService {
                 switch (menuChoice) {
                     case 6 -> logOut();
                     case 1 -> startChallenge();
-                    case 2 -> PlayerRanking.showRankingList();
+                    case 2 -> playerRankingService.showRankingList();
                     case 3 -> NewsLetter.showNewsAndUpdates();
                     case 4 -> Challenge.changeLanguage();
                     case 5 -> updateUser();
@@ -102,14 +106,18 @@ public class Menu implements MenuService {
                 String newPassword = input.nextLine();
 
                 if (!newUsername.isEmpty() || !newPassword.isEmpty()) {
+                    loggedInUser.setUsername(newUsername);
+                    loggedInUser.setPassword(newPassword);
 
-                    loggedInUser.updateCredentials(newUsername, newPassword);
+                    //loggedInUser.updateCredentials(newUsername, newPassword);
                     userService.userRepository.save(loggedInUser);
                     System.out.println(Challenge.messages.getString("updated"));
                     Challenge.returnToMenu();
+                    break;
                 }
                 else {
                     Challenge.returnToMenu();
+                    break;
                 }
 
             }

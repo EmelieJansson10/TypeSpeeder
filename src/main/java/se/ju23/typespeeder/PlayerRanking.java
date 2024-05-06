@@ -2,10 +2,10 @@ package se.ju23.typespeeder;
 
 import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,35 +14,46 @@ import static se.ju23.typespeeder.Challenge.timeSeconds;
 
 @Entity
 @Table(name="playerranking")
-
 public class PlayerRanking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     int id;
 
-    @Column(name = "name")
-    static String name;
+    //@Column(name = "name")
+    //String name;
+    //@JoinColumn(name = "user", referencedColumnName = "username")
+    @ManyToOne(fetch = FetchType.EAGER)
+    User user;
 
     @Column(name = "result")
-    static double result;
+    double result;
 
     @Column(name = "level")
-    static int level;
+    int level;
 
-    public static float score;
+    /*public float score;
     public static int levelNumber;
     public static String username = Menu.loggedInUsername;
     public static ArrayList<PlayerRanking>rankingList = new ArrayList<>();
+    public static PlayerRanking playerResult;
 
     public static PlayerRankingService service;
 
-    public PlayerRanking(String name, double result) {
+    public static PlayerRankingRepository repository;*/
+
+    /*public PlayerRanking(String name, double result) {
         this.name = name;
         this.result = result;
     }
     public PlayerRanking(String name, double result, int level) {
         this.name = name;
+        this.result = result;
+        this.level = level;
+    }*/
+
+    public PlayerRanking(User user, double result, int level) {
+        this.user = user;
         this.result = result;
         this.level = level;
     }
@@ -51,8 +62,22 @@ public class PlayerRanking {
 
     }
 
-    public String getName() {
+    public PlayerRanking(String username, double result, int level) {
+        this.user.username = username;
+        this.result = result;
+        this.level = level;
+    }
+
+    /*public String getName() {
         return name;
+    }*/
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public double getResult() {
@@ -63,12 +88,23 @@ public class PlayerRanking {
         this.result = result;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
     public void setLevel(int level) {
         this.level = level;
     }
 
-
-    public static ArrayList<PlayerRanking> rankingList(){
+    @Override
+    public String toString() {
+        return "PlayerRanking{" +
+                "user=" + user +
+                ", result=" + result +
+                ", level=" + level +
+                '}';
+    }
+    /*public static PlayerRanking rankingList(){
         int wordsValue = 1;
         int orderValue = 2;
         int wordPoints = Challenge.countWords * wordsValue;
@@ -79,32 +115,28 @@ public class PlayerRanking {
             score = (float) points / timeSeconds;
         }
         boolean playerExist = false;
-        for (PlayerRanking player : rankingList) {
-            if (player.getName().equals(username)) {
+        PlayerRanking player = repository.findByName(username);
+            if (player!=null) {
                 double result = player.getResult();
                 if(score>1){
                     player.setResult(result + score);
-                    playerExist = true;
-                    break;
+
                 } else {
                     player.setResult(result - score);
-                    playerExist = true;
-                    break;
                 }
             }
-            service.repository.save(player);
-        }
+            playerResult = repository.save(player);
         level();
-        if (!playerExist){
-            service.repository.save(new PlayerRanking(username, score, levelNumber));
+
+        if (player==null){
+            playerResult = repository.save(new PlayerRanking(username, score, levelNumber));
             /*try {
                 savePlayerData(username, score, levelNumber, conn);
             } catch (SQLException e) {
                 e.printStackTrace();
-            }*/
+            }
         }
-
-        return rankingList;
+        return playerResult;
     }
 
     public static void savePlayerData(String name, double result, int level, Connection conn) throws SQLException{
@@ -146,27 +178,27 @@ public class PlayerRanking {
             }
         }
         Challenge.returnToMenu();
-    }*/
+    }
     public static void showRankingList() throws IOException {
-        ArrayList<PlayerRanking> topList = rankingList();
-        printRankingList(topList);
+        ArrayList<PlayerRanking>playerRankingArrayList = new ArrayList<>();
+        rankingList.add(rankingList());
+        printRankingList(rankingList);
         Challenge.returnToMenu();
     }
 
     public static void level(){
         levelNumber = 1;
-
-        for (PlayerRanking player : rankingList) {
-            if (player.getName().equals(username)) {
-                double result = player.getResult();
-                if (result>=5){
-                    levelNumber = (int) (result / 5 + 1);
-                } else {
-                    levelNumber = 1;
-                }
-                player.setLevel(levelNumber);
-                service.repository.save(player);
+        PlayerRanking player = repository.findByName(username);
+        if (player!=null) {
+            double result = player.getResult();
+            if (result>=5){
+                levelNumber = (int) (result / 5 + 1);
+            } else {
+                levelNumber = 1;
             }
-        }
-    }
+            player.setLevel(levelNumber);
+            repository.save(player);
+            }
+
+    }*/
 }
