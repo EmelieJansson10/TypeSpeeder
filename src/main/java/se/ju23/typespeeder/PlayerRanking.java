@@ -17,8 +17,8 @@ import static se.ju23.typespeeder.Challenge.timeSeconds;
 public class PlayerRanking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    int id;
+    @Column(name = "user_id", insertable=false, updatable=false)
+    int userId;
 
     //@Column(name = "name")
     //String name;
@@ -26,8 +26,8 @@ public class PlayerRanking {
     @ManyToOne(fetch = FetchType.EAGER)
     User user;
 
-    @Column(name = "result")
-    double result;
+    @Column(name = "score")
+    double score;
 
     @Column(name = "level")
     int level;
@@ -52,9 +52,9 @@ public class PlayerRanking {
         this.level = level;
     }*/
 
-    public PlayerRanking(User user, double result, int level) {
+    public PlayerRanking(User user, double score, int level) {
         this.user = user;
-        this.result = result;
+        this.score = score;
         this.level = level;
     }
 
@@ -62,9 +62,9 @@ public class PlayerRanking {
 
     }
 
-    public PlayerRanking(String username, double result, int level) {
+    public PlayerRanking(String username, double score, int level) {
         this.user.username = username;
-        this.result = result;
+        this.score = score;
         this.level = level;
     }
 
@@ -80,12 +80,12 @@ public class PlayerRanking {
         this.user = user;
     }
 
-    public double getResult() {
-        return result;
+    public double getScore() {
+        return score;
     }
 
-    public void setResult(double result) {
-        this.result = result;
+    public void setScore(double score) {
+        this.score = score;
     }
 
     public int getLevel() {
@@ -100,7 +100,7 @@ public class PlayerRanking {
     public String toString() {
         return "PlayerRanking{" +
                 "user=" + user +
-                ", result=" + result +
+                ", score=" + score +
                 ", level=" + level +
                 '}';
     }

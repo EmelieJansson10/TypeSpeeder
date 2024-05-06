@@ -71,6 +71,47 @@ public class Menu implements MenuService {
     }
 
 
+    public static void displayLoginOrRegisterOptions() {
+        System.out.println("1. Registrera ny användare");
+        System.out.println("2. Logga in.");
+
+        try {
+            int choice = input.nextInt();
+            input.nextLine();
+
+            switch (choice) {
+                case 1 -> registerUser();
+                case 2 -> logIn();
+
+                default -> System.out.println("Felaktig inmatning, välj 1 eller 2.");
+
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Felaktig inmatning, välj 1 eller 2.");
+            input.nextLine();
+            displayLoginOrRegisterOptions();
+        }
+    }
+
+    public static void registerUser() {
+        System.out.println("Registrera ny användare: ");
+
+        System.out.print("Ange användarnamn:");
+        String username = input.nextLine();
+
+        System.out.print("Ange lösenord:");
+        String password = input.nextLine();
+
+        System.out.println("Ange spelnamn: ");
+        String displayname = input.nextLine();
+
+        User newUser = new User(username, password, displayname);
+        userService.userRepository.save(newUser);
+
+        System.out.println("Registrering lyckades.");
+    }
+
+
 
     public static void logIn() {
 

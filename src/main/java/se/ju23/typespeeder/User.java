@@ -17,11 +17,15 @@ public class User {
     @Column(name = "password")
     String password;
 
+    @Column(name = "dislpayname")
+    String displayname;
+
     public User(){}
 
-    public User(String username, String password) {
+    public User(String username, String password, String displayname) {
         this.username = username;
         this.password = password;
+        this.displayname = displayname;
     }
 
     public User(String username) {
@@ -34,6 +38,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", displayname='" + displayname + '\'' +
                 '}';
     }
 
@@ -58,6 +63,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDisplayname() {
+        return displayname;
+    }
+
+    public void setDisplayname(String displayname) {
+        this.displayname = displayname;
     }
 
     public void updateCredentials(String newUsername, String newPassword) {

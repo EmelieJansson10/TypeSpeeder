@@ -31,8 +31,8 @@ public class PlayerRankingService  {
         System.out.println(player);
         if (player!=null) {
             double score = calculateScore();
-            double result = player.getResult();
-            player.setResult(score > 1 ? result + score : result - score);
+            double result = player.getScore();
+            player.setScore(score > 1 ? result + score : result - score);
             updateLevel(player);
             repository.save(player);
         } else {
@@ -51,7 +51,7 @@ public class PlayerRankingService  {
         return timeSeconds != 0 ? (double) points / timeSeconds : 0.0;
     }
     private void updateLevel(PlayerRanking player) {
-        double result = player.getResult();
+        double result = player.getScore();
         int levelNumber = result >= 5 ? (int) (result / 5 + 1) : 1;
         player.setLevel(levelNumber);
     }
@@ -61,10 +61,10 @@ public class PlayerRankingService  {
     public void printRankingList(List<PlayerRanking> topList) {
         System.out.println("Ranking List:\nPlace    Player      Score       Level\n");
         int position = 1;
-        topList.sort((p1, p2) -> Double.compare(p1.result, p2.result));
+        topList.sort((p1, p2) -> Double.compare(p1.score, p2.score));
 
         for(PlayerRanking player : topList){
-            System.out.printf(String.format("%-9d%-10s%7.2f%9d%n", position++, player.user.username, player.result, player.level));
+            System.out.printf(String.format("%-9d%-10s%7.2f%9d%n", position++, player.user.username, player.score, player.level));
         }
     }
     public void showRankingList() throws IOException {
@@ -97,4 +97,7 @@ public class PlayerRankingService  {
 
     }*/
 
+    public PlayerRankingService(PlayerRankingRepository repository) {
+        this.repository = repository;
+    }
 }
