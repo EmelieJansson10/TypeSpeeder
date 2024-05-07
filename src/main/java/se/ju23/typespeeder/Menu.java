@@ -142,28 +142,28 @@ public class Menu implements MenuService {
     public static void updateUser() throws IOException {
         while (true) {
             if (loggedInUser != null) {
-                System.out.println("Vill du uppdatera användarnamn, lösenord eller spelnamn?");
-                System.out.println("1. Användarnamn");
-                System.out.println("2. Lösenord");
-                System.out.println("3. Spelnamn");
-                System.out.println("4. Tillbaka till menyn");
+                System.out.println(Challenge.messages.getString("what.update"));
+                System.out.println(Challenge.messages.getString("update1"));
+                System.out.println(Challenge.messages.getString("update2"));
+                System.out.println(Challenge.messages.getString("update3"));
+                System.out.println(Challenge.messages.getString("update4"));
                 int choice = Integer.parseInt(input.nextLine());
 
                 switch (choice) {
                     case 1 -> {
-                        System.out.print("Ange nytt användarnamn: ");
+                        System.out.print(Challenge.messages.getString("new.username"));
                         String newUsername = input.nextLine();
                         loggedInUser.setUsername(newUsername);
 
                     }
                     case 2 -> {
-                        System.out.print("Ange nytt lösenord: ");
+                        System.out.print(Challenge.messages.getString("new.password"));
                         String newPassword = input.nextLine();
                         loggedInUser.setPassword(newPassword);
 
                     }
                     case 3 -> {
-                        System.out.print("Ange nytt spelnamn: ");
+                        System.out.print(Challenge.messages.getString("new.displayname"));
                         String newDisplayName = input.nextLine();
                         loggedInUser.setDisplayname(newDisplayName);
 
@@ -173,13 +173,13 @@ public class Menu implements MenuService {
                         return;
                     }
                     default -> {
-                        System.out.println("Ogiltigt val. Försök igen.");
+                        System.out.println(Challenge.messages.getString("wrong"));
                         continue;
                     }
                 }
 
                 userService.userRepository.save(loggedInUser);
-                System.out.println("Uppdatering lyckades.");
+                System.out.println(Challenge.messages.getString("updated"));
                 Challenge.returnToMenu();
                 break;
             }
