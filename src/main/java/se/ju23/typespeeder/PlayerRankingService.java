@@ -11,7 +11,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import static se.ju23.typespeeder.Challenge.timeSeconds;
 
@@ -23,12 +25,9 @@ public class PlayerRankingService  {
     UserRepository userRepository;
 
     public void updatePlayerRanking(){
-        String username = Menu.loggedInUser.getUsername();
-        System.out.println(username);
-        User playerUser = userRepository.findByUsername(username);
-        System.out.println(playerUser);
-        PlayerRanking player = repository.findByUserUsername(username);
-        System.out.println(player);
+        Long userid = Menu.loggedInUser.getId();
+        PlayerRanking player = repository.findByUserId(userid);
+
         if (player!=null) {
             double score = calculateScore();
             double result = player.getScore();
@@ -38,7 +37,7 @@ public class PlayerRankingService  {
         } else {
             double score = calculateScore();
             int levelNumber = calculateLevel(score);
-            PlayerRanking newPlayer = new PlayerRanking(playerUser, score, levelNumber);
+            PlayerRanking newPlayer = new PlayerRanking(userid, score, levelNumber);
             repository.save(newPlayer);
         }
     }
@@ -47,39 +46,42 @@ public class PlayerRankingService  {
         int orderValue = 2;
         int wordPoints = Challenge.countWords * wordsValue;
         int orderPoints = Challenge.countOrder * orderValue;
-        int points = wordPoints + orderPoints;
-        return timeSeconds != 0 ? (double) points / timeSeconds : 0.0;
+        double points = wordPoints + orderPoints;
+        if(points==0.0){
+            return points;
+        } else {
+            return timeSeconds != 0 ? (double) points / timeSeconds : 0.0;
+        }
     }
     private void updateLevel(PlayerRanking player) {
+        int levelNumber = 1;
         double result = player.getScore();
-        int levelNumber = result >= 5 ? (int) (result / 5 + 1) : 1;
+        levelNumber = result >= 5 ? (int) (result / 5 + 1) : 1;
         player.setLevel(levelNumber);
     }
     private int calculateLevel(double score) {
         return score >= 5 ? (int) (score / 5 + 1) : 1;
     }
     public void printRankingList(List<PlayerRanking> topList) {
-        System.out.println("Ranking List:\nPlace    Player      Score       Level\n");
+        System.out.println("Ranking List:\nPlace    Player            Score      Level\n");
         int position = 1;
-        topList.sort((p1, p2) -> Double.compare(p1.score, p2.score));
 
         for(PlayerRanking player : topList){
-            System.out.printf(String.format("%-9d%-10s%7.2f%9d%n", position++, player.user.username, player.score, player.level));
+            Long userid = player.getUserId();
+            User users = userRepository.findById(userid);
+            String displayname = users.getDisplayname();
+
+
+            System.out.printf(String.format("%-9d%-13s%10.2f%9d%n", position++,displayname, player.score, player.level));
         }
     }
     public void showRankingList() throws IOException {
         updatePlayerRanking();
-        String username = Menu.loggedInUser.getUsername();
-        List<PlayerRanking> playerRankingList = new ArrayList<>();
-        PlayerRanking player = repository.findByUserUsername(username);
-        if(player!=null){
-            playerRankingList.add(player);
-            printRankingList(playerRankingList);
-        }else{
-            System.out.println("Hitta inte spelare");
-        }
+        List<PlayerRanking> playerRankings = repository.findAllByOrderByLevelDesc();
+        printRankingList(playerRankings);
         Challenge.returnToMenu();
     }
+
 
     /*public void level(){
         levelNumber = 1;
