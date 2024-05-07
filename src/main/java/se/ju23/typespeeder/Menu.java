@@ -108,7 +108,9 @@ public class Menu implements MenuService {
         User newUser = new User(username, password, displayname);
         userService.userRepository.save(newUser);
 
-        System.out.println("Registrering lyckades.");
+        System.out.println("Registrering lyckades, vänligen logga in som din nya användare nedan.");
+
+        logIn();
     }
 
 
@@ -140,32 +142,50 @@ public class Menu implements MenuService {
     public static void updateUser() throws IOException {
         while (true) {
             if (loggedInUser != null) {
-                System.out.print(Challenge.messages.getString("new.username"));
-                String newUsername = input.nextLine();
+                System.out.println("Vill du uppdatera användarnamn, lösenord eller spelnamn?");
+                System.out.println("1. Användarnamn");
+                System.out.println("2. Lösenord");
+                System.out.println("3. Spelnamn");
+                System.out.println("4. Tillbaka till menyn");
+                int choice = Integer.parseInt(input.nextLine());
 
-                System.out.print(Challenge.messages.getString("new.password"));
-                String newPassword = input.nextLine();
+                switch (choice) {
+                    case 1 -> {
+                        System.out.print("Ange nytt användarnamn: ");
+                        String newUsername = input.nextLine();
+                        loggedInUser.setUsername(newUsername);
 
-                if (!newUsername.isEmpty() || !newPassword.isEmpty()) {
-                    loggedInUser.setUsername(newUsername);
-                    loggedInUser.setPassword(newPassword);
+                    }
+                    case 2 -> {
+                        System.out.print("Ange nytt lösenord: ");
+                        String newPassword = input.nextLine();
+                        loggedInUser.setPassword(newPassword);
 
-                    //loggedInUser.updateCredentials(newUsername, newPassword);
-                    userService.userRepository.save(loggedInUser);
-                    System.out.println(Challenge.messages.getString("updated"));
-                    Challenge.returnToMenu();
-                    break;
+                    }
+                    case 3 -> {
+                        System.out.print("Ange nytt spelnamn: ");
+                        String newDisplayName = input.nextLine();
+                        loggedInUser.setDisplayname(newDisplayName);
+
+                    }
+                    case 4 -> {
+                        Challenge.returnToMenu();
+                        return;
+                    }
+                    default -> {
+                        System.out.println("Ogiltigt val. Försök igen.");
+                        continue;
+                    }
                 }
-                else {
-                    Challenge.returnToMenu();
-                    break;
-                }
 
+                userService.userRepository.save(loggedInUser);
+                System.out.println("Uppdatering lyckades.");
+                Challenge.returnToMenu();
+                break;
             }
-
-
         }
     }
+
 
 
     public static void logOut() {
