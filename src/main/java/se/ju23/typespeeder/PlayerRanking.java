@@ -16,9 +16,13 @@ import static se.ju23.typespeeder.Challenge.timeSeconds;
 @Table(name="playerranking")
 public class PlayerRanking {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", insertable=false, updatable=false)
-    Long userId;
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Column(name = "user_id", insertable=false, updatable=false)
+   Long userId;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     //@Column(name = "name")
     //String name;
