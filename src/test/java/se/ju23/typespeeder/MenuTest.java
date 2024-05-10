@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static se.ju23.typespeeder.Menu.messages;
 
 class MenuTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -76,7 +77,7 @@ class MenuTest {
     @Test
     public void testDisplayMenuCallsGetMenuOptionsAndReturnsAtLeastFive() throws IOException {
         Menu menuMock = Mockito.spy(new Menu());
-        menuMock.displayMenu();
+        menuMock.displayMenu(messages);
         verify(menuMock, times(1)).getMenuOptions();
         assertTrue(menuMock.getMenuOptions().size() >= 5, "'getMenuOptions()' should return at least 5 alternatives.");
     }
@@ -90,7 +91,7 @@ class MenuTest {
 
     @Test
     public void menuShouldPrintAtLeastFiveOptions() throws IOException {
-        new Menu().displayMenu();
+        new Menu().displayMenu(messages);
         long count = outContent.toString().lines().count();
         assertTrue(count >= 5, "The menu should print out at least 5 alternatives.");
     }

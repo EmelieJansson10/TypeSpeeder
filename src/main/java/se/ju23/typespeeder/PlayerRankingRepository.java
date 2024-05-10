@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface PlayerRankingRepository extends JpaRepository <PlayerRanking, Integer> {
     PlayerRanking findByUserId(Long userId);
-    List<PlayerRanking> findAllByOrderByLevelDesc();
+    List<PlayerRanking> findAllByOrderByLevelDescScoreDesc();
 }

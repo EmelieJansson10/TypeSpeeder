@@ -1,5 +1,6 @@
 package se.ju23.typespeeder;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -10,6 +11,7 @@ import static se.ju23.typespeeder.Challenge.startChallenge;
 
 @Component
 public class Menu implements MenuService {
+    @Autowired
     private static UserService userService;
     public static User loggedInUser;
     private static Object LoggedInUser;
@@ -22,12 +24,13 @@ public class Menu implements MenuService {
     public static String userName;
     public static String passWord;
     public static boolean loggedIn=false;
+
+    @Autowired
     private static PlayerRankingService playerRankingService;
 
 
-    public Menu (PlayerRankingService playerRankingService) {
-        this.playerRankingService = playerRankingService;
-    }
+   public Menu () {
+   }
 
     public static void displayMenu(ResourceBundle messages) throws IOException {
         UserService userService = TypeSpeederApplication.userService;

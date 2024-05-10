@@ -63,21 +63,25 @@ public class PlayerRankingService  {
         return score >= 5 ? (int) (score / 5 + 1) : 1;
     }
     public void printRankingList(List<PlayerRanking> topList) {
-        System.out.println("Ranking List:\nPlace    Player            Score      Level\n");
+        for(PlayerRanking player : topList){
+            System.out.println(player);
+        }
+     /*   System.out.println("Ranking List:\nPlace    Player            Score      Level\n");
         int position = 1;
 
         for(PlayerRanking player : topList){
             Long userid = player.getUserId();
             User users = userRepository.findById(userid);
             String displayname = users.getDisplayname();
+            System.out.println(displayname);
 
 
             System.out.printf(String.format("%-9d%-13s%10.2f%9d%n", position++,displayname, player.score, player.level));
-        }
+        }*/
     }
     public void showRankingList() throws IOException {
         updatePlayerRanking();
-        List<PlayerRanking> playerRankings = repository.findAllByOrderByLevelDesc();
+        List<PlayerRanking> playerRankings = repository.findAllByOrderByLevelDescScoreDesc();
         printRankingList(playerRankings);
         Challenge.returnToMenu();
     }

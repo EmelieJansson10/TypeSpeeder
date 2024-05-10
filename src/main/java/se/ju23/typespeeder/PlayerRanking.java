@@ -24,9 +24,6 @@ public class PlayerRanking {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    //@Column(name = "name")
-    //String name;
-    //@JoinColumn(name = "user", referencedColumnName = "username")
 
     @Column(name = "score")
     double score;

@@ -3,8 +3,10 @@ package se.ju23.typespeeder;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static se.ju23.typespeeder.Menu.messages;
 
 class MenuPerformanceTest {
     private static final int MAX_EXECUTION_TIME_MENU = 1;
@@ -35,7 +37,7 @@ class MenuPerformanceTest {
         long startTime = System.nanoTime();
 
         Menu menu = new Menu();
-        menu.displayMenu();
+        menu.displayMenu(messages);
 
         long endTime = System.nanoTime();
         long duration = (endTime - startTime) / MILLISECONDS_CONVERSION;
