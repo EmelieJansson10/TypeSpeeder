@@ -15,7 +15,7 @@ import java.util.Date;
 import static se.ju23.typespeeder.Menu.input;
 
 public class NewsLetter {
-    public String content;
+    private String content;
     public LocalDateTime publishDateTime;
 
     public NewsLetter(String content, LocalDateTime publishDateTime)throws IOException{

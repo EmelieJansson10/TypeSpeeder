@@ -77,7 +77,7 @@ class MenuTest {
     @Test
     public void testDisplayMenuCallsGetMenuOptionsAndReturnsAtLeastFive() throws IOException {
         Menu menuMock = Mockito.spy(new Menu());
-        menuMock.displayMenu(messages);
+        menuMock.displayMenu();
         verify(menuMock, times(1)).getMenuOptions();
         assertTrue(menuMock.getMenuOptions().size() >= 5, "'getMenuOptions()' should return at least 5 alternatives.");
     }
@@ -91,7 +91,7 @@ class MenuTest {
 
     @Test
     public void menuShouldPrintAtLeastFiveOptions() throws IOException {
-        new Menu().displayMenu(messages);
+        new Menu().displayMenu();
         long count = outContent.toString().lines().count();
         assertTrue(count >= 5, "The menu should print out at least 5 alternatives.");
     }

@@ -323,7 +323,7 @@ public class Challenge {
         System.out.print(messages.getString("return.menu"));
         String goBack = input.nextLine().toLowerCase();
         if ("ja".equalsIgnoreCase(goBack) || "yes".equalsIgnoreCase(goBack)) {
-            Menu.displayMenu(messages);
+            Menu.displayMenu();
         }
     }
     public static String pickRandomFilePath(String[] filepath){

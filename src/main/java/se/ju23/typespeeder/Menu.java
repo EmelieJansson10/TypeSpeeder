@@ -24,9 +24,12 @@ public class Menu implements MenuService {
     public static String userName;
     public static String passWord;
     public static boolean loggedIn=false;
+    private static boolean isEnglish = false;
 
 
+    public Menu(){
 
+    }
     @Autowired
     public Menu(UserService userService, PlayerRankingService playerRankingService) {
         this.userService = userService;
@@ -35,7 +38,17 @@ public class Menu implements MenuService {
         this.input = new Scanner(System.in);
     }
 
-    public static void displayMenu(ResourceBundle messages) throws IOException {
+    public static void displayMenu() throws IOException {
+        if(isEnglish){
+            // engelska
+        }else{
+            // svenska
+        }
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
         UserService userService = TypeSpeederApplication.userService;
         while (true){
             MenuOptions.clear();

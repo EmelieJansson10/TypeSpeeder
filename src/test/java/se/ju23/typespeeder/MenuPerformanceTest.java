@@ -27,7 +27,7 @@ class MenuPerformanceTest {
 
     @Test
     public void testUserCanChooseSwedishLanguageAndPerformance() throws IOException {
-        String input = "svenska\n";
+        String input = "en\n";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
 
@@ -37,7 +37,7 @@ class MenuPerformanceTest {
         long startTime = System.nanoTime();
 
         Menu menu = new Menu();
-        menu.displayMenu(messages);
+        menu.displayMenu();
 
         long endTime = System.nanoTime();
         long duration = (endTime - startTime) / MILLISECONDS_CONVERSION;

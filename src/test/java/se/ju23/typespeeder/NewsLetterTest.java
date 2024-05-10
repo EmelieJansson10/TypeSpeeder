@@ -31,8 +31,10 @@ class NewsLetterTest {
 
             Object instance = newsLetterClass.getDeclaredConstructor(String.class, LocalDateTime.class).newInstance("content", LocalDateTime.now());
             Field field = newsLetterClass.getDeclaredField("content");
+            System.out.println(field);
             field.setAccessible(true);
             String contentValue = (String) field.get(instance);
+            System.out.println(contentValue);
 
             assertTrue(contentValue.length() >= 100, "Content field length should be at least 100 characters.");
             assertTrue(contentValue.length() <= 200, "Content field length should be at most 200 characters.");
