@@ -11,6 +11,7 @@ public class User {
    @Column(name = "id")
     long id;
 
+
     @Column(name = "username")
     String username;
 

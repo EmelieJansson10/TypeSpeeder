@@ -116,13 +116,13 @@ public class Menu implements MenuService {
     public static void registerUser() {
         System.out.println("Registrera ny användare: ");
 
-        System.out.print("Ange användarnamn: ");
+        System.out.print("Ange användarnamn:");
         String username = input.nextLine();
 
-        System.out.print("Ange lösenord: ");
+        System.out.print("Ange lösenord:");
         String password = input.nextLine();
 
-        System.out.print("Ange spelnamn: ");
+        System.out.println("Ange spelnamn: ");
         String displayname = input.nextLine();
 
         User newUser = new User(username, password, displayname);
