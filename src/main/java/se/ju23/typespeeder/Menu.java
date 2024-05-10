@@ -11,8 +11,8 @@ import static se.ju23.typespeeder.Challenge.startChallenge;
 
 @Component
 public class Menu implements MenuService {
-    @Autowired
     private static UserService userService;
+    private static PlayerRankingService playerRankingService;
     public static User loggedInUser;
     private static Object LoggedInUser;
     public static String loggedInUsername;
@@ -25,12 +25,15 @@ public class Menu implements MenuService {
     public static String passWord;
     public static boolean loggedIn=false;
 
+
+
     @Autowired
-    private static PlayerRankingService playerRankingService;
-
-
-   public Menu () {
-   }
+    public Menu(UserService userService, PlayerRankingService playerRankingService) {
+        this.userService = userService;
+        this.playerRankingService = playerRankingService;
+        this.messages = ResourceBundle.getBundle("Messages");
+        this.input = new Scanner(System.in);
+    }
 
     public static void displayMenu(ResourceBundle messages) throws IOException {
         UserService userService = TypeSpeederApplication.userService;

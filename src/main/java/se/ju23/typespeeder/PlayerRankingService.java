@@ -63,22 +63,18 @@ public class PlayerRankingService  {
         return score >= 5 ? (int) (score / 5 + 1) : 1;
     }
     public void printRankingList(List<PlayerRanking> topList) {
-        for(PlayerRanking player : topList){
-            System.out.println(player);
-        }
-     /*   System.out.println("Ranking List:\nPlace    Player            Score      Level\n");
+        System.out.println("Ranking List:\nPlace    Player            Score      Level\n");
         int position = 1;
 
-        for(PlayerRanking player : topList){
-            Long userid = player.getUserId();
-            User users = userRepository.findById(userid);
-            String displayname = users.getDisplayname();
-            System.out.println(displayname);
+        for (PlayerRanking player : topList) {
+            Long userId = player.getUserId();
+            User user = userRepository.findById(userId);
+            String displayName = (user != null) ? user.getDisplayname() : "Unknown";
 
-
-            System.out.printf(String.format("%-9d%-13s%10.2f%9d%n", position++,displayname, player.score, player.level));
-        }*/
+            System.out.printf(String.format("%-9d%-13s%10.2f%9d%n", position++, displayName, player.getScore(), player.getLevel()));
+        }
     }
+
     public void showRankingList() throws IOException {
         updatePlayerRanking();
         List<PlayerRanking> playerRankings = repository.findAllByOrderByLevelDescScoreDesc();
