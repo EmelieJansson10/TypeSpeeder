@@ -80,6 +80,7 @@ public class Menu implements MenuService {
     public static void displayLoginOrRegisterOptions() {
         System.out.println("1. Registrera ny användare");
         System.out.println("2. Logga in.");
+        System.out.print(messages.getString("choose.number"));
 
         try {
             int choice = input.nextInt();
@@ -102,13 +103,13 @@ public class Menu implements MenuService {
     public static void registerUser() {
         System.out.println("Registrera ny användare: ");
 
-        System.out.print("Ange användarnamn:");
+        System.out.print("Ange användarnamn: ");
         String username = input.nextLine();
 
-        System.out.print("Ange lösenord:");
+        System.out.print("Ange lösenord: ");
         String password = input.nextLine();
 
-        System.out.println("Ange spelnamn: ");
+        System.out.print("Ange spelnamn: ");
         String displayname = input.nextLine();
 
         User newUser = new User(username, password, displayname);
