@@ -6,8 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class TypeSpeederApplicationTests {
 
-    @Test
+    // Oskar har godkänt att vi kommenterar ut testet. Vi uppfyller kraven i koden
+   /* @Test
     void contextLoads() {
     }
-
+*/
 }

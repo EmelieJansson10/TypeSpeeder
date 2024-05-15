@@ -16,7 +16,7 @@ import static se.ju23.typespeeder.Challenge.timeSeconds;
 @Table(name="playerranking")
 public class PlayerRanking {
     @Id
-   //@GeneratedValue(strategy = GenerationType.IDENTITY)
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "user_id", insertable=false, updatable=false)
    Long userId;
 
