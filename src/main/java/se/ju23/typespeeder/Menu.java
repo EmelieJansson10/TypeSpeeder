@@ -24,12 +24,12 @@ public class Menu implements MenuService {
     public static String userName;
     public static String passWord;
     public static boolean loggedIn=false;
-    private static boolean isEnglish = false;
-
 
     public Menu(){
 
     }
+
+
     @Autowired
     public Menu(UserService userService, PlayerRankingService playerRankingService) {
         this.userService = userService;
@@ -39,30 +39,8 @@ public class Menu implements MenuService {
     }
 
     public static void displayMenu() throws IOException {
-        if(isEnglish){
-            // engelska
-        }else{
-            // svenska
-        }
-        System.out.println("\n");
-        System.out.println("\n");
-        System.out.println("\n");
-        System.out.println("\n");
-        System.out.println("\n");
-        UserService userService = TypeSpeederApplication.userService;
         while (true){
-            MenuOptions.clear();
-            MenuOptions.add(messages.getString("menu1"));
-            MenuOptions.add(messages.getString("menu2"));
-            MenuOptions.add(messages.getString("menu3"));
-            MenuOptions.add(messages.getString("menu4"));
-            MenuOptions.add(messages.getString("menu5"));
-            MenuOptions.add(messages.getString("menu6"));
-            for (String option : MenuOptions) {
-                System.out.println(option);
-            }
-            System.out.print(messages.getString("choose.number"));
-
+            getMenuOptions();
 
             try {
                 int menuChoice = input.nextInt();
@@ -78,6 +56,7 @@ public class Menu implements MenuService {
                     case 3 -> NewsLetter.showNewsAndUpdates();
                     case 4 -> Challenge.changeLanguage();
                     case 5 -> updateUser();
+                    case 7 -> endProgram();
 
                         default -> System.out.println("Felaktig inmatning, försök igen.");
                     }
@@ -88,11 +67,27 @@ public class Menu implements MenuService {
             }
         }
     }
+    public static List<String> getMenuOptions() {
+        List<String> MenuOptions = new ArrayList<>();
+            MenuOptions.add(Challenge.messages.getString("menu1"));
+            MenuOptions.add(Challenge.messages.getString("menu2"));
+            MenuOptions.add(Challenge.messages.getString("menu3"));
+            MenuOptions.add(Challenge.messages.getString("menu4"));
+            MenuOptions.add(Challenge.messages.getString("menu5"));
+            MenuOptions.add(Challenge.messages.getString("menu6"));
+            MenuOptions.add(Challenge.messages.getString("end.program"));
+            for (String option : MenuOptions) {
+                System.out.println(option);
+            }
+            System.out.print(Challenge.messages.getString("choose.number"));
+        return MenuOptions;
+    }
 
 
     public static void displayLoginOrRegisterOptions() {
-        System.out.println("1. Registrera ny användare");
-        System.out.println("2. Logga in.");
+        System.out.println("1. Logga in.");
+        System.out.println("2. Registrera ny användare");
+        System.out.println("3. Avsluta programmet");
         System.out.print(messages.getString("choose.number"));
 
         try {
@@ -100,8 +95,9 @@ public class Menu implements MenuService {
             input.nextLine();
 
             switch (choice) {
-                case 1 -> registerUser();
-                case 2 -> logIn();
+                case 1 -> logIn();
+                case 2 -> registerUser();
+                case 3 -> endProgram();
 
                 default -> System.out.println("Felaktig inmatning, välj 1 eller 2.");
 
@@ -133,8 +129,6 @@ public class Menu implements MenuService {
         logIn();
     }
 
-
-
     public static void logIn() {
 
 
@@ -156,7 +150,6 @@ public class Menu implements MenuService {
         }
 
     }
-
 
 
     public static void updateUser() throws IOException {
@@ -209,8 +202,11 @@ public class Menu implements MenuService {
 
 
     public static void logOut() {
+        displayLoginOrRegisterOptions();
+    }
+    public static void endProgram(){
         LoggedInUser = null;
-        System.out.println(Challenge.messages.getString("logged.out"));
+        System.out.println(Challenge.messages.getString("end"));
         System.exit(0);
     }
 
@@ -221,10 +217,5 @@ public class Menu implements MenuService {
 
     public static void loadResources() {
         messages = ResourceBundle.getBundle("messages", Locale.getDefault());
-    }
-
-
-    public List<String> getMenuOptions() {
-        return MenuOptions;
     }
 }

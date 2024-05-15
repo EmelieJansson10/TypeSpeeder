@@ -11,9 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
-
-import static se.ju23.typespeeder.Menu.input;
-
 public class NewsLetter {
     private String content;
     public LocalDateTime publishDateTime;
