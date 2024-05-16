@@ -286,9 +286,7 @@ public class Challenge {
                 }
             }
         }
-        //System.out.println(redLetters);
         String [] gameLetters = game2.split("\\s+");
-        System.out.println(game2);
         for (String list : gameLetters){
             for(String red : redLetters){
                 if (red.equals(list.trim())){
