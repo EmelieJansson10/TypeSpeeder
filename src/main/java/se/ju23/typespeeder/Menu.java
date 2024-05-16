@@ -50,12 +50,12 @@ public class Menu implements MenuService {
                 logIn();
             } else {
                 switch (menuChoice) {
-                    case 6 -> logOut();
                     case 1 -> startChallenge();
                     case 2 -> playerRankingService.showRankingList();
                     case 3 -> NewsLetter.showNewsAndUpdates();
                     case 4 -> Challenge.changeLanguage();
                     case 5 -> updateUser();
+                    case 6 -> logOut();
                     case 7 -> endProgram();
 
                         default -> System.out.println("Felaktig inmatning, försök igen.");
@@ -202,6 +202,7 @@ public class Menu implements MenuService {
 
 
     public static void logOut() {
+        System.out.println("Du är nu utloggad.");
         displayLoginOrRegisterOptions();
     }
     public static void endProgram(){

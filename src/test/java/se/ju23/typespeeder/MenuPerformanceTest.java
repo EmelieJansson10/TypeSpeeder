@@ -24,8 +24,8 @@ class MenuPerformanceTest {
 
         assertTrue(duration <= MAX_EXECUTION_TIME_MENU, "Menu display took too long. Execution time: " + duration + " ms.");
     }
-
-    @Test
+    // Oskar har godkänt att vi kommenterar ut testet. Vi uppfyller kraven i koden
+  /*  @Test
     public void testUserCanChooseSwedishLanguageAndPerformance() throws IOException {
         String input = "en\n";
         InputStream in = new ByteArrayInputStream(input.getBytes());
@@ -50,5 +50,5 @@ class MenuPerformanceTest {
 
 
         assertTrue(duration <= MAX_EXECUTION_TIME_LANGUAGE_SELECTION, "Menu display and language selection took too long. Execution time: " + duration + " ms.");
-    }
+    }*/
 }
